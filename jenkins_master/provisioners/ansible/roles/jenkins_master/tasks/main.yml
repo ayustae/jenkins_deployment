@@ -1,0 +1,27 @@
+# tasks file for jenkins
+---
+# Install and configure java
+- include_tasks: install_java.yml
+
+# Install Jenkins
+- include_tasks: install_jenkins.yml
+
+# Configure Jenkins
+- include_tasks: configure_jenkins.yml
+
+# Wait for Jenkins to be up
+- name: Wait for Jenkins to start
+  uri:
+    url: "http://{{ jenkins_hostname }}:{{ jenkins_port }}{{ jenkins_url_path }}"
+    method: GET
+    return_content: yes
+    timeout: 5
+    body_format: raw
+    follow_redirects: yes
+    status_code: 200,403
+  changed_when: false
+  check_mode: false
+  register: jenkins_access_result
+  until: ( jenkins_access_result.status == 403 or jenkins_access_result == 200 )
+  retries: "{{ jenkins_access.retries }}"
+  delay: "{{ jenkins_access.delay }}"

@@ -1,0 +1,15 @@
+galaxy_info:
+  author: no name
+  description: Install Jenkins master on RHEL 8
+  company: no company
+  license: BSD-3-Clause
+  min_ansible_version: 2.1
+  platforms:
+  - name: RHEL
+    versions:
+    - 8
+  galaxy_tags:
+  - jenkins
+  - jenkins_master
+  - rhel
+  - rhel-8

@@ -1,0 +1,17 @@
+# Configure and restart Jenkins
+---
+- name: Make sure that the Jenkins home folder exists
+  file:
+    path: "{{ jenkins_home_folder }}"
+    state: directory
+    owner: "{{ jenkins_host_user }}"
+    group: "{{ jenkins_host_group }}"
+    mode: u+rwx
+
+- name: Configure Java options
+  lineinfile:
+    dest: /etc/sysconfig/jenkins
+    regexp: "^{{ item.key }}="
+    line: '{{ item.key }}="{{ item.value }}"'
+  with_items: "{{ jenkins_config }}"
+  notify: restart jenkins

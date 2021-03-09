@@ -1,0 +1,19 @@
+# defaults file for jenkins
+---
+# Java version to install
+java_version: 8
+
+# Install the stable or latest Jenkins version
+jenkins_use_stable_version: true
+
+# Home folder for Jenkins
+jenkins_home_folder: /var/lib/jenkins
+
+# Jenkins host user and group
+jenkins_host_user: jenkins
+jenkins_host_group: "{{ jenkins_host_user }}"
+
+# Jenkins URL configuration
+jenkins_hostname: localhost
+jenkins_port: 8080
+jenkins_url_path: ""
