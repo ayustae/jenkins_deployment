@@ -43,3 +43,27 @@ variable "master_id" {
   description = "Id of the instance of the master node"
   type        = string
 }
+
+# Java version
+variable "java_version" {
+  description = "Java version to be used"
+  type        = string
+}
+
+# Jenkins swarm version
+variable "jenkins_swarm_version" {
+  description = "Jenkins swarm version to use"
+  type        = string
+}
+
+# Jenkins username
+variable "jenkins_username" {
+  description = "Jenkins technical username to add workers"
+  type        = string
+}
+
+# Jenkins password
+variable "jenkins_password" {
+  description = "Jenkins technical user password to add workers"
+  type        = string
+}

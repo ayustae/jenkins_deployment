@@ -39,3 +39,9 @@ variable "master_instance_type" {
   description = "Jenkins master instance type"
   type        = string
 }
+
+# Java version
+variable "java_version" {
+  description = "Java versiont to use"
+  type        = string
+}

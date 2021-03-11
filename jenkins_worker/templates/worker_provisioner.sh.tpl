@@ -13,4 +13,6 @@ packer build \
     -var "ami_description=${ami_description}" \
     -var "common_tags=${tags}" \
     -var "module_path=${module_path}" \
+    -var "java_version=${java_version}" \
+    -var "swarm_version=${swarm_version}" \
     "${module_path}/packer/worker_ami.pkr.hcl"

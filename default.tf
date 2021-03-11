@@ -68,3 +68,31 @@ variable "max_amount_workers" {
   type        = number
   default     = 3
 }
+
+# Java version
+variable "java_version" {
+  description = "Java version to be used"
+  type        = string
+  default     = "8.0"
+}
+
+# Jenkins swarm plugin version
+variable "jenkins_swarm_version" {
+  description = "Jenkins swarm plugin version"
+  type        = string
+  default     = "3.9"
+}
+
+# Jenkins username for registering workers
+variable "jenkins_username" {
+  description = "Jenkins technical username for registering workers"
+  type        = string
+  default     = "jenkins_worker"
+}
+
+# Jenkins password for registering workers
+variable "jenkins_password" {
+  description = "Jenkins technical user password for registering workers"
+  type        = string
+  default     = "Secret123#"
+}

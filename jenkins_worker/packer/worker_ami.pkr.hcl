@@ -29,7 +29,14 @@ variable "common_tags" {
 
 variable "module_path" {
   type    = string
-  default = "/Users/a.yustaespla/DevOps/jenkins_deployment/jenkins_worker"
+}
+
+variable "java_version" {
+  type    = string
+}
+
+variable "swarm_version" {
+  type    = string
 }
 
 # Get RHEL 8 AMI information
@@ -87,4 +94,14 @@ source "amazon-ebs" "jenkins_worker-packer_builder" {
 # Builders
 build {
   sources = ["source.amazon-ebs.jenkins_worker-packer_builder"]
+
+  provisioner "ansible" {
+    playbook_file   = "${module_path}/provisioners/ansible/jenkins_worker.yml"
+    extra_arguments = [
+      "--extra-vars",
+      "java_version=${var.java_version}",
+      "--extra-vars",
+      "swarm_version=${var.swarm_version}"
+    ]
+  }
 }

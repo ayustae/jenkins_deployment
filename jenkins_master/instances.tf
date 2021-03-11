@@ -62,6 +62,6 @@ resource "aws_instance" "jenkins_master" {
   )
   depends_on = [aws_route_table_association.private_routes_assoc]
   provisioner "local-exec" {
-    command = templatefile("${path.module}/templates/master_provisioner.sh.tpl", { region = var.region, instance_id = self.id, module_path = path.module, rsa_key = data.external.rsa_key.result["private_key"] })
+    command = templatefile("${path.module}/templates/master_provisioner.sh.tpl", { region = var.region, instance_id = self.id, module_path = path.module, rsa_key = data.external.rsa_key.result["private_key"], java_version = var.java_version })
   }
 }

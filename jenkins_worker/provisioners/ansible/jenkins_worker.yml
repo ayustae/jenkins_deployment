@@ -1,0 +1,20 @@
+# Ansible template to configure the Jenkins Master
+---
+- hosts: default
+  gather_facts: true
+  vars:
+    java_version: 8.0
+    swarm_version: 3.9
+  tasks:
+    - name: Download dependencies
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - "curl"
+        - "git"
+        - "java.1-{{ java_version }}-openjdk"
+    - name: Get the Jenkins swarm client downloaded
+      get_url:
+        url: "https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/{{ swarm_version }}/swarm-client-{{ swarm_version }}.jar"
+        dest: "/home/ec2-user/swarm-client.jar"

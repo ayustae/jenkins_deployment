@@ -1,7 +1,7 @@
 # defaults file for jenkins
 ---
 # Java version to install
-java_version: 8
+java_version: 8.0
 
 # Install the stable or latest Jenkins version
 jenkins_use_stable_version: true
