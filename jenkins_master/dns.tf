@@ -10,11 +10,13 @@ resource "aws_acm_certificate" "jenkins_https_cert" {
   lifecycle {
     create_before_destroy = true
   }
-  tags               = {
-    Name = "jenkins_ssl_cert"
-    Type = "SSL Certificate"
-    for tag in var.tags: tak.key => tag.value
-  }
+  tags = merge(
+    {
+      Name = "jenkins_ssl_cert"
+      Type = "SSL Certificate"
+    },
+    var.tags
+  )
 }
 
 # Create record for ACM certificate validation

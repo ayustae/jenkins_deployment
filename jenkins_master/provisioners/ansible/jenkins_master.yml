@@ -18,5 +18,5 @@
     - name: Get the Jenkins initial admin password file
       fetch:
         src: "{{ jenkins_home_folder }}/secrets/initialAdminPassword"
-        dest: "{{ module_path }}/../"
+        dest: "{{ module_path }}/"
         flat: true

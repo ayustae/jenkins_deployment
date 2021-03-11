@@ -5,11 +5,13 @@ resource "aws_lb" "jenkins_lb" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.lb-sg.id]
   subnets            = [for subnet in aws_subnet.public_subnets : subnet.id]
-  tags               = {
-    Name = "jenkins_alb"
-    Type = "ALB"
-    for tag in var.tags: tak.key => tag.value
-  }
+  tags = merge(
+    {
+      Name = "jenkins_alb"
+      Type = "ALB"
+    },
+    var.tags
+  )
 }
 
 # Create a target group for the ALB
@@ -27,11 +29,13 @@ resource "aws_lb_target_group" "jenkins_lb_master_target_group" {
     protocol = "HTTP"
     matcher  = "200-299"
   }
-  tags               = {
-    Name = "jenkins_master_target_group"
-    Type = "Target Group"
-    for tag in var.tags: tak.key => tag.value
-  }
+  tags = merge(
+    {
+      Name = "jenkins_master_target_group"
+      Type = "Target Group"
+    },
+    var.tags
+  )
 }
 
 # Create a listener for the ALB for HTTP

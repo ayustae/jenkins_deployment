@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit in case of any error
+set -e
+
 # Create the temporary Ansible inventory
 sed -i "" "s/i-[a-z0-9]*/${instance_id}/" "${module_path}/provisioners/ansible/inventory.ini"
 
@@ -8,6 +11,10 @@ aws ec2 wait instance-status-ok --region "${region}" --instance-ids "${instance_
 
 # Wait some seconds for the system to initialize
 sleep 30
+
+# Check SSH connectivity
+echo ssh -o StrictHostKeyChecking=no -o ProxyCommand="sh -c \"aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'\"" -i "${module_path}/keys/${rsa_key}" ec2-user@"${instance_id}" echo 'Hey there!'
+ssh -o StrictHostKeyChecking=no -o ProxyCommand="sh -c \"aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'\"" -i "${module_path}/keys/${rsa_key}" ec2-user@"${instance_id}" echo 'Hey there!'
 
 # Run the ansible playbook
 ansible-playbook \

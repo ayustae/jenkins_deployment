@@ -2,7 +2,7 @@
 variable "aws_region" {
   description = "AWS region where the deployment will take place"
   type        = string
-  default     = "us-east-1"
+  default     = "eu-central-1"
 }
 
 # Tagging configuration

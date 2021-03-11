@@ -15,11 +15,13 @@ data "aws_iam_policy_document" "assume_role_policy" {
 resource "aws_iam_role" "ssm_role" {
   name               = "ssm_role_for_ec2"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
-  tags               = {
-    Name = "jenkins_master_role"
-    Type = "IAM Role"
-    for tag in var.tags: tag.key => tag.value
-  }
+  tags = merge(
+    {
+      Name = "jenkins_master_role"
+      Type = "IAM Role"
+    },
+    var.tags
+  )
 }
 
 # Attach the SSM policy to the master instance role

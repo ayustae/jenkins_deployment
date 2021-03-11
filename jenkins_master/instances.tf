@@ -28,11 +28,13 @@ data "external" "rsa_key" {
 resource "aws_key_pair" "jenkins_key" {
   key_name   = "jenkins-key"
   public_key = file("${path.module}/keys/${data.external.rsa_key.result["public_key"]}")
-  tags       = {
-    Name = "jenkins_ssh_key"
-    Type = "Key Pair"
-    for tag in var.tags: tag.key => tag.value
-  }
+  tags = merge(
+    {
+      Name = "jenkins_ssh_key"
+      Type = "Key Pair"
+    },
+    var.tags
+  )
 }
 
 # Create instance profile for the jenkins instances
@@ -51,12 +53,14 @@ resource "aws_instance" "jenkins_master" {
   subnet_id                   = element(aws_subnet.private_subnets.*.id, 0)
   iam_instance_profile        = aws_iam_instance_profile.jenkins_instance_profile.id
   user_data                   = file("${path.module}/provisioners/bash/update_and_install_ssm.sh")
-  tags                        = {
-    Name = "jenkins_master_instance"
-    Type = "EC2 Instance"
-    for tag in var.tags: tag.key => tag.value
-  }
-  depends_on                  = [aws_route_table_association.private_routes_assoc]
+  tags = merge(
+    {
+      Name = "jenkins_master_instance"
+      Type = "EC2 Instance"
+    },
+    var.tags
+  )
+  depends_on = [aws_route_table_association.private_routes_assoc]
   provisioner "local-exec" {
     command = templatefile("${path.module}/templates/master_provisioner.sh.tpl", { region = var.region, instance_id = self.id, module_path = path.module, rsa_key = data.external.rsa_key.result["private_key"] })
   }
