@@ -56,14 +56,14 @@ variable "worker_instance_type" {
 }
 
 # Min number of worker nodes
-variable "amount_workers" {
+variable "min_amount_workers" {
   description = "Amount of worker nodes to deploy"
   type        = number
   default     = 2
 }
 
 # Max number of worker nodes
-variable "scale_workers" {
+variable "max_amount_workers" {
   description = "Amount of worker nodes to scale"
   type        = number
   default     = 3

@@ -28,13 +28,11 @@ module "jenkins_master" {
 #module "jenkins_workers" {
 #  source "./jenkins_workers/"
 #  # variables
-#  region               = var.aws_region
+#  aws_region           = var.aws_region
 #  tags                 = var.tags
 #  vpc_id               = module.jenkins_master.jenkins_vpc_id
-#  public_subnets       = module.jenkins_master.jenkins_public_subnets
-#  private_subnets      = module.jenkins_master.jenkins_private_subnets
-#  master_sg            = module.jenkins_master.jenkins_master_sg_id
+#  master_id            = module.jenkins_master.jenkins_master_id
 #  worker_instance_type = var.worker_instance_type
-#  min_amount_workers   = var.amount_workers
-#  max_amount_workers   = var.scale_workers
+#  min_amount_workers   = var.min_amount_workers
+#  max_amount_workers   = var.max_amount_workers
 #}
