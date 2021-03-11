@@ -48,23 +48,3 @@ variable "master_instance_type" {
   type        = string
   default     = "t2.micro"
 }
-
-variable "worker_instance_type" {
-  description = "Jenkins worker instance type"
-  type        = string
-  default     = "t2.micro"
-}
-
-# Min number of worker nodes
-variable "amount_workers" {
-  description = "Amount of worker nodes to deploy"
-  type        = number
-  default     = 2
-}
-
-# Max number of worker nodes
-variable "scale_workers" {
-  description = "Amount of worker nodes to scale"
-  type        = number
-  default     = 3
-}
