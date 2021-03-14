@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "jenkins_lb_master_target_group" {
     path     = "/"
     port     = var.webserver_port
     protocol = "HTTP"
-    matcher  = "200-299"
+    matcher  = "200,403"
   }
   tags = merge(
     {

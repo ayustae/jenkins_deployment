@@ -1,0 +1,23 @@
+#!groovy
+
+// Get the Jenkins instance
+def jenkinsInstance = jenkins.model.Jenkins.getInstanceOrNull()
+
+// Get the security realm
+def securityRealm = jenkinsInstance.getSecurityRealm()
+
+// Get the users
+def users = securityRealm.getAllUsers()
+
+// Check whether the user to be created already exists
+if (users.contains("{{ item.username }}")) {
+    // Set the password if it exists
+    def user = hudson.module.User.get("{{ item.username }}")
+    def password = hudson.security.HudsonPrivateSecurityRealm.Details.fromPlainPassword('{{ item.password }}')
+    user.addProperty(password)
+    user.save()
+}
+else {
+    // Or create the user if it is missing
+    securityRealm.createAccount("{{ item.username }}", "{{ item.password }}")
+}

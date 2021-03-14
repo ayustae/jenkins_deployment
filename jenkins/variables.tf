@@ -39,3 +39,32 @@ variable "master_instance_type" {
   description = "Jenkins master instance type"
   type        = string
 }
+
+# Instance type for the worker nodes
+variable "worker_instance_type" {
+  description = "Jenkins worker instance type"
+  type        = string
+}
+
+# Min number of worker nodes
+variable "min_amount_workers" {
+  description = "Amount of worker nodes to deploy"
+  type        = number
+}
+
+# Max number of worker nodes
+variable "max_amount_workers" {
+  description = "Amount of worker nodes to scale"
+  type        = number
+}
+
+# Jenkins credentials
+variable "jenkins_username" {
+  description = "Username to register workers to the master node."
+  type        = string
+}
+
+variable "jenkins_password" {
+  description = "Password to register workers to the master node."
+  type        = string
+}

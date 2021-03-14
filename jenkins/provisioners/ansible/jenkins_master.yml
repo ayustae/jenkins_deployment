@@ -1,0 +1,10 @@
+# Ansible playbook to configure the Jenkins Master
+---
+- hosts: master_host
+  become: true
+  gather_facts: true
+  vars_files:
+    - jenkins_vars.yml
+    - jenkins_users.yml
+  roles:
+    - role: roles/jenkins_master
