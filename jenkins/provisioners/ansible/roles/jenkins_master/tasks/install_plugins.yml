@@ -1,0 +1,50 @@
+# Install the necessary Jenkins plugins
+---
+# Download the Jenkins plug-in updates repository
+- name: Create plugin updates folder
+  file:
+    path: "{{ jenkins_home_folder }}/updates"
+    state: directory
+    owner: "{{ jenkins_host_user }}"
+    group: "{{ jenkins_host_group }}"
+    mode: 0755
+
+- name: Download the plugins repository
+  get_url:
+    url: "https://updates.jenkins.io/update-center.json"
+    dest: "{{ jenkins_home_folder }}/updates/default.json"
+    owner: "{{ jenkins_host_user }}"
+    group: "{{ jenkins_host_group }}"
+    mode: 0440
+  register: download_plugins_updates_repo
+  until: "download_plugins_updates_repo is success"
+  retries: "{{ jenkins_access.retries }}"
+  delay: "{{ jenkins_access.delay }}"
+
+- name: Delete the first line of the updates repository (opening curly bracket)
+  replace:
+    path: "{{ jenkins_home_folder }}/updates/default.json"
+    regexp: "1d"
+
+- name: Delete the last line of the updates repository (closing curly bracket)
+  replace:
+    path: "{{ jenkins_home_folder }}/updates/default.json"
+    regexp: "$d"
+
+# Install the Jenkins plugins
+- name: Install the Jenkins plugins
+  jenkins_plugin:
+    name: "{{ item.name }}"
+    version: "{{ item.version | default(omit) }}"
+    state: "{{ 'present' if item.version is defined else 'latest' }}"
+    with_dependencies: true
+    jenkins_home: "{{ jenkins_home_folder }}"
+    url: "http://{{ jenkins_hostname }}:{{ jenkins_port }}{{ jenkins_url_path }}"
+    url_username: "admin"
+    url_password: "{{ initial_admin_password }}"
+  with_items: "{{ jenkins_plugins }}"
+  register: plugin_install
+  until: "plugin_install is success"
+  retries: "{{ jenkins_access.retries }}"
+  delay: "{{ jenkins_access.delay }}"
+  notify: restart jenkins

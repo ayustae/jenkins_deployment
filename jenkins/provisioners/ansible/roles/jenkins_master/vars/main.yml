@@ -4,11 +4,6 @@
 java:
   package: "java-1.{{ java_version }}.0-openjdk"
 
-# List of dependencies
-dependencies:
-  - wget
-  - git
-
 # Jenkins variables
 jenkins_repo:
   repo_url: "https://pkg.jenkins.io/redhat{{ '-stable' if (jenkins_use_stable_version | bool) else '' }}/jenkins.repo"

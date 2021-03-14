@@ -11,8 +11,8 @@ provider "aws" {
 }
 
 # Load master jenkins module
-module "jenkins_master" {
-  source = "./jenkins_master/"
+module "jenkins" {
+  source = "./jenkins/"
   # variables
   region               = var.aws_region
   tags                 = var.tags
@@ -21,4 +21,9 @@ module "jenkins_master" {
   dns_domain           = var.dns_domain
   subdomain            = var.subdomain
   master_instance_type = var.master_instance_type
+  worker_instance_type = var.worker_instance_type
+  min_amount_workers   = var.min_amount_workers
+  max_amount_workers   = var.max_amount_workers
+  jenkins_username     = var.jenkins_username
+  jenkins_password     = var.jenkins_password
 }

@@ -1,10 +1,5 @@
 # Intall Jenkins
 ---
-- name: Install Jenkins dependencies
-  yum:
-    name: "{{ dependencies }}"
-    state: latest
-
 - name: Download Jenkins repository
   get_url:
     url: "{{ jenkins_repo.repo_url }}"
