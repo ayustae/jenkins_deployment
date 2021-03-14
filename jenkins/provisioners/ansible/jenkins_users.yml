@@ -1,0 +1,11 @@
+# Jenkins users to configure
+---
+jenkins_users:
+  # Admin user
+  - username: "administrator"
+    password: "Password123#"
+    permission: ""
+  # Technical user for the workers
+  - username: "worker_user"
+    password: "Password123#"
+    permission: ""

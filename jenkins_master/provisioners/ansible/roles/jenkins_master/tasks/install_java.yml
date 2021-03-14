@@ -1,6 +1,0 @@
-# Install and configure Java
----
-- name: Install Java
-  yum:
-    name: "{{ java.package }}"
-    state: latest

@@ -1,0 +1,36 @@
+# Register the necessary users in Jenkins
+---
+# Ensure that the groovy script is in the correct repository
+- name: Create a folder for user creation scripts
+  file:
+    path: "{{ jenkins_home_folder }}/user_scripts"
+    state: directory
+    owner: "{{ jenkins_host_user }}"
+    group: "{{ jenkins_host_group }}"
+    mode: 0755
+
+- name: Upload the groovy scripts for registering users
+  template:
+    src: add_user.groovy.j2
+    dest: "{{ jenkins_home_folder }}/user_scripts/register_user_{{ item.username }}.groovy"
+    owner: "{{ jenkins_host_user }}"
+    group: "{{ jenkins_host_group }}"
+    mode: 0775
+  with_items: "{{ jenkins_users }}"
+  no_log: yes
+
+# Use the script to register all the necessary users
+- name: Run the script for registering users
+  shell:
+    cmd: "java -jar {{ jenkins_cli_path }} \
+          -s http://{{ jenkins_hostname}}:{{ jenkins_port }}{{ jenkins_url_path }} \
+          -auth admin:{{ initial_admin_password }} \
+          groovy = < {{ jenkins_home_folder }}/user_scripts/register_user_{{ item.username }}.groovy"
+  with_items: "{{ jenkins_users }}"
+  no_log: yes
+
+# Delete the folder once the users are registered
+- name: Delete the folder with user creation scripts
+  file:
+    path: "{{ jenkins_home_folder }}/user_scripts"
+    state: absent

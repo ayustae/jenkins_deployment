@@ -1,98 +1,70 @@
-# AWS configuration variables
-variable "aws_region" {
+# AWS region
+variable "region" {
   description = "AWS region where the deployment will take place"
   type        = string
-  default     = "eu-central-1"
 }
 
-# Tagging configuration
+# Project tag
 variable "tags" {
-  description = "Tags for the created resources"
+  description = "Tags for the resources"
   type        = map(string)
-  default = {
-    Project = "MyProject"
-    Group   = "jenkins"
-  }
 }
 
-# Networking configuration
+# VPC CIDR block
 variable "network_ip" {
   description = "IP octects for the VPC network (2 first octects of the VPC CIDR)"
   type        = string
-  default     = "10.0"
 }
 
 # Jenkins master webserver port
 variable "webserver_port" {
   description = "Port of the webserver in the Jenkins master"
   type        = string
-  default     = "8080"
 }
 
-# DNS configuration
+# Domain name to be used to create Route53 registries
 variable "dns_domain" {
   description = "Apex domain name to create subdomains"
   type        = string
-  default     = "example.com."
 }
 
+# Subdomain below the DNS record for the Jenkins web console
 variable "subdomain" {
   description = "DNS subdomain for the Jenkins web console"
   type        = string
-  default     = "jenkins"
 }
 
-# Instance types
+# Jenkins master instance type
 variable "master_instance_type" {
   description = "Jenkins master instance type"
   type        = string
-  default     = "t2.medium"
 }
 
+# Instance type for the worker nodes
 variable "worker_instance_type" {
   description = "Jenkins worker instance type"
   type        = string
-  default     = "t2.medium"
 }
 
 # Min number of worker nodes
 variable "min_amount_workers" {
   description = "Amount of worker nodes to deploy"
   type        = number
-  default     = 2
 }
 
 # Max number of worker nodes
 variable "max_amount_workers" {
   description = "Amount of worker nodes to scale"
   type        = number
-  default     = 3
 }
 
-# Java version
-variable "java_version" {
-  description = "Java version to be used"
-  type        = string
-  default     = "8.0"
-}
-
-# Jenkins swarm plugin version
-variable "jenkins_swarm_version" {
-  description = "Jenkins swarm plugin version"
-  type        = string
-  default     = "3.9"
-}
-
-# Jenkins username for registering workers
+# Jenkins credentials
 variable "jenkins_username" {
-  description = "Jenkins technical username for registering workers"
+  description = "Username to register workers to the master node."
   type        = string
-  default     = "worker_user"
 }
 
-# Jenkins password for registering workers
 variable "jenkins_password" {
-  description = "Jenkins technical user password for registering workers"
+  description = "Password to register workers to the master node."
   type        = string
-  default     = "Password123#"
 }

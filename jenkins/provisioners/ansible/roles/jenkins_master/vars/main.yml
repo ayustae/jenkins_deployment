@@ -1,0 +1,32 @@
+# vars file for jenkins
+---
+# Java variables
+java:
+  package: "java-1.{{ java_version }}-openjdk"
+
+# Jenkins variables
+jenkins_repo:
+  repo_url: "https://pkg.jenkins.io/redhat{{ '-stable' if (jenkins_use_stable_version | bool) else '' }}/jenkins.repo"
+  repo_key: "https://pkg.jenkins.io/redhat{{ '-stable' if (jenkins_use_stable_version | bool) else '' }}/jenkins.io.key"
+
+jenkins_config:
+   - key: JENKINS_HOME
+     value: "{{ jenkins_home_folder }}"
+   - key: JENKINS_JAVA_OPTIONS
+     value: "-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
+   - key: JENKINS_USER
+     value: "{{ jenkins_host_user }}"
+   - key: JENKINS_DEBUG_LEVEL
+     value: 5
+   - key: JENKINS_PORT
+     value: "{{ jenkins_port }}"
+   - key: JENKINS_LISTEN_ADDRESS
+     value: ""
+   - key: JENKINS_ENABLE_ACCESS_LOG
+     value: "no"
+   - key: JENKINS_ARGS
+     value: "--prefix='{{ jenkins_url_path }}'"
+
+jenkins_access:
+  retries: 5
+  delay: 10

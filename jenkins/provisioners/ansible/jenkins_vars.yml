@@ -1,0 +1,27 @@
+# Ansible vars to configure the Jenkins Master
+---
+
+# Jenkins configuration
+jenkins_home_folder: /var/lib/jenkins
+jenkins_host_user: jenkins
+jenkins_host_group: "{{ jenkins_host_user }}"
+
+# Jenkins URL
+jenkins_hostname: localhost
+jenkins_port: 8080
+jenkins_url_path: ""
+
+# Jenkins instalation parameters
+jenkins_use_stable_version: true
+java_version: 8.0
+dependencies:
+  - wget
+  - git
+
+# Jenkins plug-ins
+swarm_version: "3.25"
+jenkins_plugins:
+  - name: "swarm"
+    version: "{{ swarm_version }}"
+  - name: "git"
+  - name: "matrix-auth"
