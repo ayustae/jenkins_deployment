@@ -12,4 +12,6 @@ packer build \
     -var "ami_name=${ami_name}" \
     -var "ami_description=${ami_description}" \
     -var "module_path=${module_path}" \
+    -var "master_ip=${master_ip}" \
+    -var "master_port=${master_port}" \
     "${module_path}/packer/worker_ami.pkr.hcl"

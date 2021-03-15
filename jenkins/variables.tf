@@ -58,13 +58,8 @@ variable "max_amount_workers" {
   type        = number
 }
 
-# Jenkins credentials
-variable "jenkins_username" {
-  description = "Username to register workers to the master node."
-  type        = string
-}
-
-variable "jenkins_password" {
-  description = "Password to register workers to the master node."
+# Ansible vault password
+variable "vault_password" {
+  description = "Password for the Ansible vault containing the Jenkins users"
   type        = string
 }
