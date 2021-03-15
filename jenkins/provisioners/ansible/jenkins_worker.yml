@@ -5,6 +5,10 @@
   gather_facts: true
   vars_files:
     - jenkins_vars.yml
+    - jenkins_users.yml
+  vars:
+    worker_user_username: "{{ jenkins_users[1].username }}"
+    worker_user_password: "{{ jenkins_users[1].password }}"
   tasks:
     - name: Download dependencies
       yum:
@@ -18,3 +22,10 @@
       get_url:
         url: "https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/{{ swarm_version }}/swarm-client-{{ swarm_version }}.jar"
         dest: "/home/ec2-user/swarm-client.jar"
+    - name: Load the script for registering the user
+      template:
+        src: register_worker.sh.j2
+        dest: /home/ec2-user/register_worker.sh
+        owner: ec2-user
+        group: ec2-user
+        mode: 0770

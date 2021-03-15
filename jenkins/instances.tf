@@ -1,3 +1,10 @@
+# Create the vault password file
+resource "null_resource" "vault_password" {
+  provisioner "local-exec" {
+    command = templatefile("${path.module}/templates/create_vault_password_file.sh.tpl", { vault_password = var.vault_password, module_path = path.module })
+  }
+}
+
 # Create a RSA key pair
 data "external" "rsa_key" {
   program     = ["bash", "data_sources/create_key_pair.sh"]
@@ -48,18 +55,6 @@ resource "aws_instance" "jenkins_master" {
   }
 }
 
-# Template file for the worker user data
-data "template_file" "register_worker" {
-  template = file("${path.module}/templates/register_worker.sh.tpl")
-  vars = {
-    master_ip   = aws_instance.jenkins_master.private_ip
-    master_port = "8080"
-    master_id   = aws_instance.jenkins_master.id
-    username    = var.jenkins_username
-    password    = var.jenkins_password
-  }
-}
-
 # Create a launch template for the worker nodes
 resource "aws_launch_template" "jenkins_workers_template" {
   name                   = "worker_nodes_template"
@@ -68,7 +63,7 @@ resource "aws_launch_template" "jenkins_workers_template" {
   instance_type          = var.worker_instance_type
   key_name               = aws_key_pair.jenkins_key.key_name
   vpc_security_group_ids = [aws_security_group.jenkins_worker-sg.id]
-  user_data              = base64encode(data.template_file.register_worker.rendered)
+  user_data              = base64encode(file("${path.module}/provisioners/bash/run_worker_registration.sh"))
   iam_instance_profile {
     arn = aws_iam_instance_profile.jenkins_instance_profile.arn
   }

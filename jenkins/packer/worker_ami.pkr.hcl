@@ -27,6 +27,14 @@ variable "module_path" {
   type    = string
 }
 
+variable "master_ip" {
+  type    = string
+}
+
+variable "master_port" {
+  type    = string
+}
+
 # Get RHEL 8 AMI information
 data "amazon-ami" "rhel" {
   most_recent = true
@@ -82,5 +90,13 @@ build {
 
   provisioner "ansible" {
     playbook_file   = "${var.module_path}/provisioners/ansible/jenkins_worker.yml"
+    extra_arguments = [
+      "--extra-vars",
+      "master_ip=${var.master_ip}",
+      "--extra-vars",
+      "master_port=${var.master_port}",
+      "--vault-password-file",
+      "${var.module_path}/provisioners/ansible/vault_password_file.txt"
+    ]
   }
 }

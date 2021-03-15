@@ -24,6 +24,5 @@ module "jenkins" {
   worker_instance_type = var.worker_instance_type
   min_amount_workers   = var.min_amount_workers
   max_amount_workers   = var.max_amount_workers
-  jenkins_username     = var.jenkins_username
-  jenkins_password     = var.jenkins_password
+  vault_password       = var.vault_password
 }

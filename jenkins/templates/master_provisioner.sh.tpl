@@ -23,4 +23,5 @@ ansible-playbook \
     --inventory "${module_path}/provisioners/ansible/inventory.ini" \
     --private-key "${module_path}/keys/${rsa_key}" \
     --extra-vars "module_path=${module_path}" \
+    --vault-password-file "${module_path}/provisioners/ansible/vault_password_file.txt" \
     "${module_path}/provisioners/ansible/jenkins_master.yml"

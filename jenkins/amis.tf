@@ -33,6 +33,8 @@ data "template_file" "packer_executor" {
     ami_name        = local.worker_ami_name
     ami_description = local.worker_ami_description
     module_path     = path.module
+    master_ip       = aws_instance.jenkins_master.private_ip
+    master_port     = var.webserver_port
   }
 }
 

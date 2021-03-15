@@ -9,9 +9,9 @@ java -jar /home/ec2-user/swarm-client.jar \
     -executors 5 \
     -fsroot "/home/ec2-user" \
     -labels "General" \
-    -master "http://${master_ip}:${master_port}" \
+    -master "http://{{ master_ip }}:{{ master_port }}" \
     -mode "normal" \
     -name "$(curl http://169.254.169.254/latest/meta-data/instance-id)" \
-    -password "${password}" \
-    -username "${username}" \
+    -password "{{ worker_user_password }}" \
+    -username "{{ worker_user_username }}" \
     -webSocket

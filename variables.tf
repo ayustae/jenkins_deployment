@@ -83,16 +83,9 @@ variable "jenkins_swarm_version" {
   default     = "3.9"
 }
 
-# Jenkins username for registering workers
-variable "jenkins_username" {
-  description = "Jenkins technical username for registering workers"
+# Ansible vault password
+variable "vault_password" {
+  description = "Password for the Ansible vault containing the Jenkins users"
   type        = string
-  default     = "worker_user"
-}
-
-# Jenkins password for registering workers
-variable "jenkins_password" {
-  description = "Jenkins technical user password for registering workers"
-  type        = string
-  default     = "Password123#"
+  default     = "Secret123#"
 }
